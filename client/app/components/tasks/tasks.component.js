@@ -1,4 +1,4 @@
-System.register(['angular2/core', './components/tasks/tasks.component'], function(exports_1, context_1) {
+System.register(['angular2/core'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,32 +10,28 @@ System.register(['angular2/core', './components/tasks/tasks.component'], functio
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, tasks_component_1;
-    var AppComponent;
+    var core_1;
+    var TaskComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
-            },
-            function (tasks_component_1_1) {
-                tasks_component_1 = tasks_component_1_1;
             }],
         execute: function() {
-            AppComponent = (function () {
-                function AppComponent() {
+            TaskComponent = (function () {
+                function TaskComponent() {
                 }
-                AppComponent = __decorate([
+                TaskComponent = __decorate([
                     core_1.Component({
-                        selector: 'my-app',
-                        templateUrl: './app/app.component.html',
-                        directives: [tasks_component_1.TaskComponent]
+                        selector: 'tasks',
+                        templateUrl: './app/components/tasks/tasks.component.html',
                     }), 
                     __metadata('design:paramtypes', [])
-                ], AppComponent);
-                return AppComponent;
+                ], TaskComponent);
+                return TaskComponent;
             }());
-            exports_1("AppComponent", AppComponent);
+            exports_1("TaskComponent", TaskComponent);
         }
     }
 });
-//# sourceMappingURL=app.component.js.map
+//# sourceMappingURL=tasks.component.js.map
