@@ -24,14 +24,14 @@ router.get('/task/:id',function(req,res,next){
 
 router.post('/task',function(req,res,next){
   var task=req.body;
-  if(!task.title || (task.isDone+'')){
+  if(!task.title || !(task.isDone+'')){
     res.status(400);
     res.json({
       "error":"Bad Data"
     });
   }
   else{
-    db.tasks.save(task,function(){
+    db.tasks.save(task,function(err){
       if(err){
         res.send(err);
       }
@@ -42,7 +42,7 @@ router.post('/task',function(req,res,next){
 
 
 router.delete('/task/:id',function(req,res,next){
-  db.tasks.findOne({_id:mongojs.ObjectId(req.params.id)},function(err,task ){
+  db.tasks.remove({_id:mongojs.ObjectId(req.params.id)},function(err,task ){
     if(err){
       res.send(err);
     }

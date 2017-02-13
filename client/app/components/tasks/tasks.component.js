@@ -1,4 +1,4 @@
-System.register(['angular2/core'], function(exports_1, context_1) {
+System.register(['angular2/core', '../../services/task.service'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,23 +10,68 @@ System.register(['angular2/core'], function(exports_1, context_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1;
+    var core_1, task_service_1;
     var TaskComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (task_service_1_1) {
+                task_service_1 = task_service_1_1;
             }],
         execute: function() {
             TaskComponent = (function () {
-                function TaskComponent() {
+                function TaskComponent(taskService) {
+                    var _this = this;
+                    this.taskService = taskService;
+                    this.taskService.getTasks()
+                        .subscribe(function (tasks) {
+                        _this.tasks = tasks;
+                    });
                 }
+                TaskComponent.prototype.addTask = function (event) {
+                    var _this = this;
+                    event.preventDefault();
+                    var newTask = {
+                        title: this.title,
+                        isDone: false
+                    };
+                    // this.tasks.push(newTask);
+                    this.taskService.addTask(newTask)
+                        .subscribe(function (task) {
+                        _this.tasks.push(task);
+                        _this.title = "";
+                    });
+                };
+                TaskComponent.prototype.deleteTask = function (id) {
+                    var tasks = this.tasks;
+                    this.taskService.deleteTask(id).subscribe(function (data) {
+                        if (data.n == 1) {
+                            for (var i = 0; i < tasks.length; i++) {
+                                if (tasks[i]._id == id) {
+                                    tasks.splice(i, 1);
+                                }
+                            }
+                        }
+                    });
+                };
+                TaskComponent.prototype.updateStatus = function (task) {
+                    var _task = {
+                        _id: task._id,
+                        title: task.title,
+                        isDone: !task.isDone
+                    };
+                    this.taskService.updateStatus(_task).subscribe(function (data) {
+                        task.isDone = !task.isDone;
+                    });
+                };
                 TaskComponent = __decorate([
                     core_1.Component({
                         selector: 'tasks',
                         templateUrl: './app/components/tasks/tasks.component.html',
                     }), 
-                    __metadata('design:paramtypes', [])
+                    __metadata('design:paramtypes', [task_service_1.TaskService])
                 ], TaskComponent);
                 return TaskComponent;
             }());
